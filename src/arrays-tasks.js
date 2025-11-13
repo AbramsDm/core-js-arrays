@@ -350,8 +350,14 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  return arr.reduce((acc, item, index) => {
+    const chunkIndex = Math.floor(index / chunkSize);
+    const chunkArr = acc[chunkIndex] || [];
+    chunkArr.push(item);
+    acc[chunkIndex] = chunkArr;
+    return acc;
+  }, []);
 }
 
 /**
@@ -420,8 +426,12 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (v, k) => {
+    const row = Array(n).fill(0);
+    row[k] = 1;
+    return row;
+  });
 }
 
 /**
@@ -452,8 +462,10 @@ function getIndicesOfOddNumbers(numbers) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map((num) => {
+    return `#${num.toString(16).toUpperCase().padStart(6, '0')}`;
+  });
 }
 
 /**
@@ -536,8 +548,9 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const quantityShift = n % arr.length;
+  return arr.slice(-quantityShift).concat(arr.slice(0, -quantityShift));
 }
 
 /**
@@ -589,8 +602,13 @@ function sortDigitNamesByNumericOrder(arr) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length === 1) return arr;
+  const middleElement = Math.floor(arr.length / 2);
+  const head = arr.slice(0, middleElement);
+  const middle = arr.length % 2 === 1 ? [arr[middleElement]] : [];
+  const tail = arr.slice(-middleElement);
+  return [...tail, ...middle, ...head];
 }
 
 module.exports = {
